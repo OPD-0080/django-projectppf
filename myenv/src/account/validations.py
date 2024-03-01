@@ -92,7 +92,7 @@ def validate_signup(request):
     print("validating signup fields")
     context = {}
     
-    if re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', request.data["email"]):
+    if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', request.data["email"]):
         context = {
             "msg": "Error. Provide Email !",
             "status": False

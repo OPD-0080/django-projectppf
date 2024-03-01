@@ -156,3 +156,10 @@ REST_FRAMEWORK = {
         ['django_filters.rest_framework.DjangoFilterBackend']
     )
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'shopfossy@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'gwglyzlczcxkjsjk'  # Replace with your password
