@@ -13,4 +13,9 @@ class SerializeSignup(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ("email", "first_name", "last_name", "middle_name", "contact_number", "company", "department",)
+
+class SerializeOTPCodes(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ("otp",)
         

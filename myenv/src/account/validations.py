@@ -149,4 +149,24 @@ def validate_signup(request):
     else:
         return context
     
+def validate_otp(request):
+    print("validating OTP fields")
+    context = {}
     
+    if request.data["otp"] == "" or request.data["otp"] == None:
+        context = {
+            "msg": "Error. Provide valid OTP code !",
+            "status": False
+        }
+    else:
+        context = { 
+            "msg": "validation complete",
+            "status": True
+        }
+    
+    print("Error message from Signup validations ::", context)
+    
+    if context["msg"]:
+        return context
+    else:
+        return context

@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('register/', post.register, name="register"),
     path('signup/', post.signup, name="signup"),
+    path('otpverification/', post.otp_verification, name="otp_verification"),
     
     
     path('signup/', views.signup, name="view_signup"),
