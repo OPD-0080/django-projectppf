@@ -104,6 +104,7 @@ def signup(request):
     company = data.get("company", None)
     department = data.get("department", None)
     confirmPass = data.get("confirmPass", None)
+    userID = f"{company[:3].lower()}{generate_random_code(4)}"
     
     
     ## validate fields 
@@ -128,7 +129,7 @@ def signup(request):
         
         except RegistrationModel.DoesNotExist:
             context = {
-                "msg": f"Choice of Company {company} does not exist. Register Your Company!"
+                "msg": f"Choice of Company {company} does not exist. Register Your Business Now!"
             }
             return Response(context, status=status.HTTP_400_BAD_REQUEST)
         ## ....
@@ -143,7 +144,7 @@ def signup(request):
         except UserModel.DoesNotExist: ##  user is singup for the first time against the company 
             new_user = UserModel.objects.create(
                     email= email, first_name= first_name, last_name= last_name, middle_name= middle_name,
-                    contact_number= contact_number, company= company, department= department, userID= f"{company[:3].lower()}{generate_random_code(4)}"
+                    contact_number= contact_number, company= company, department= department, userID= userID
                 )
             new_user.set_password(confirmPass)
             new_user.save()
@@ -154,11 +155,9 @@ def signup(request):
             senderEmail = "" ## allowing server to use deafault email in settings 
             recipientEmail = "obengprince0001@gmail.com"
             otp = generate_random_code(4)
-            email_resp = send_otp_email(senderEmail= senderEmail, recipientEmail= recipientEmail, otp= otp)
+            email_resp = send_otp_email(senderEmail= senderEmail, recipientEmail= recipientEmail, otp= otp, userID= userID)
             print("Emailing response ..:", email_resp)
-            
-            ##if socket.getaddrinfo:
-            
+
             if email_resp > 0:
                 print("OTP code sent sucessfully")
                 ## update user sgnup profile  with otp code 
@@ -195,6 +194,7 @@ def signup(request):
         }
         return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def otp_verification(request):
@@ -216,9 +216,12 @@ def otp_verification(request):
         return Response(context, status=status.HTTP_400_BAD_REQUEST)
     ## ....
     ## serializing data after validating fields
-    serializer = SerializeOTPCodes(data=data)
+    serializer = SerializeOTPCodes(data=data, many=False)
     if serializer.is_valid():
         print("getting seriliazer data ...:", serializer)
+        
+        ## crosschck if OTP provided matches with the OTP codde in db
+        
         
         
         

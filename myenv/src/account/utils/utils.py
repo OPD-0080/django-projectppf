@@ -8,9 +8,9 @@ def generate_random_code(length):
     return resp[:length]
 
 
-def send_otp_email(senderEmail, recipientEmail, otp):
-    subject = 'OTP Code for user verification'.upper()
-    message = f'Your OTP code is: {otp}'
+def send_otp_email(senderEmail, recipientEmail, otp, userID):
+    subject = f'OTP Code verification'.upper()
+    message = f'OTP code is: {otp}. Permit user {userID} to signup against your company by giving OTP code to user'
     from_email = f'{senderEmail}'  # Replace with your email or let server use defaul email in the settings 
     recipient_list = [recipientEmail]
     
@@ -22,7 +22,3 @@ def send_otp_email(senderEmail, recipientEmail, otp):
     except socket.gaierror as error:
         if str(error).endswith("failed"):
             return False
-    
-    
-    
-    ##return send_mail(subject, message, from_email, recipient_list)
